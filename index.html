@@ -17,23 +17,26 @@
       color: blue;
       text-decoration: underline;
     }
+
     #jaguarCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
   </style>
 </head>
+
 <body>
 
 <h1>My Essays</h1>
-
 <p>This is your homepage.</p>
+
 <canvas id="jaguarCanvas"></canvas>
+
 <script>
 const canvas = document.getElementById("jaguarCanvas");
 const ctx = canvas.getContext("2d");
@@ -46,33 +49,40 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
+
+// 🐆 More defined jaguar sprite (0=empty, 1=green body, 2=black spots)
 const jaguarFrames = [
+
+  // FRAME 1 (legs forward)
   [
-    [0,1,1,1,0],
-    [1,2,1,2,1],
-    [1,1,1,1,1],
-    [0,1,1,1,1],
-    [0,1,0,1,0]
+    [0,0,1,1,1,1,0,0],
+    [0,1,1,2,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,2,1,1,1,2,1,1],
+    [0,1,0,1,1,0,1,0],
+    [0,1,0,0,0,0,1,0]
   ],
+
+  // FRAME 2 (legs back)
   [
-    [0,1,1,1,0],
-    [1,2,1,2,1],
-    [1,1,1,1,1],
-    [1,1,1,1,0],
-    [0,1,0,1,0]
+    [0,0,1,1,1,1,0,0],
+    [0,1,1,2,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,2,1,1,1,2,1],
+    [0,1,0,1,1,0,1,0],
+    [0,0,1,0,0,1,0,0]
   ]
 ];
 
-let x = -100;
-let y = window.innerHeight * 0.7;
-let frame = 0;
+let x = -120;
+let baseY = window.innerHeight * 0.7;
 
-function draw(sprite, x, y, size = 8) {
+function draw(sprite, x, y, size = 10) {
   for (let r = 0; r < sprite.length; r++) {
-    for (let c = 0; c < sprite[r][c].length; c++) {
+    for (let c = 0; c < sprite[r].length; c++) {
       const val = sprite[r][c];
 
-      if (val === 1) ctx.fillStyle = "#00ff4c"; // green body
+      if (val === 1) ctx.fillStyle = "#00ff4c";   // jaguar body
       else if (val === 2) ctx.fillStyle = "#000000"; // spots
       else continue;
 
@@ -84,18 +94,20 @@ function draw(sprite, x, y, size = 8) {
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  x += 4;
-  if (x > canvas.width + 100) x = -120;
+  x += 3;
+  if (x > canvas.width + 120) x = -150;
 
-  y = window.innerHeight * 0.7 + Math.sin(Date.now() * 0.02) * 5;
+  const y = baseY + Math.sin(Date.now() * 0.02) * 4;
 
-  draw(
-  jaguarFrames[Math.floor(Date.now() / 150) % 2],
-  x,
-  y
-);
+  const frame = Math.floor(Date.now() / 120) % jaguarFrames.length;
+
+  draw(jaguarFrames[frame], x, y);
+
+  requestAnimationFrame(animate);
+}
 
 animate();
 </script>
+
 </body>
 </html>
