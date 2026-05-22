@@ -42,11 +42,43 @@
       pointer-events: none;
       z-index: 9998;
     }
+    /* ❤️ CSS-drawn heart */
+#heart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 90px;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  background: red;
+  z-index: 10000;
+}
+
+#heart::before,
+#heart::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 90px;
+  background: red;
+  border-radius: 50%;
+}
+
+#heart::before {
+  top: -50px;
+  left: 0;
+}
+
+#heart::after {
+  left: 50px;
+  top: 0;
+}
   </style>
 </head>
 
 <body>
 
+<div id="heart"></div>
 <h1>My Essays</h1>
 <p>This is your homepage.</p>
 
