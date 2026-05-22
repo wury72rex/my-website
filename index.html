@@ -2,29 +2,8 @@
 <html>
 <head>
   <title>My Essays</title>
+
   <style>
-    <script>
-const jaguar = document.getElementById("jaguar");
-
-let x = -200;
-
-function animate() {
-  x += 4; // speed
-
-  if (x > window.innerWidth + 200) {
-    x = -200; // loop back
-  }
-
-  // slight up/down motion to simulate running
-  const yOffset = Math.sin(Date.now() * 0.02) * 6;
-
-  jaguar.style.transform = `translate(${x}px, ${yOffset}px)`;
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-</script>
     body {
       font-family: "Times New Roman", serif;
       background: white;
@@ -34,12 +13,27 @@ animate();
       line-height: 1.6;
       font-size: 18px;
     }
-<img id="jaguar" src="jaguar.png" />
+
     a {
       color: blue;
       text-decoration: underline;
     }
 
+    /* 🖼️ PNG jaguar */
+    #jaguar {
+      position: fixed;
+      top: 60%;
+      left: -200px;
+      width: 180px;
+      height: auto;
+      z-index: 9999;
+      pointer-events: none;
+
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* 🎨 Canvas jaguar */
     #jaguarCanvas {
       position: fixed;
       top: 0;
@@ -47,50 +41,63 @@ animate();
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 9998;
     }
-    </CSS>
-  #jaguar {
-  position: fixed;
-  top: 60%;
-  left: -200px;
-  width: 180px;          /* adjust size */
-  height: auto;
-
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-
-  z-index: 9999;
-  pointer-events: none;
-}
   </style>
 </head>
-
 
 <body>
 
 <h1>My Essays</h1>
 <p>This is your homepage.</p>
 
+<!-- 🖼️ PNG jaguar -->
+<img id="jaguar" src="jaguar.png" />
+
+<!-- 🎨 Canvas jaguar -->
 <canvas id="jaguarCanvas"></canvas>
 
 <script>
+/* =========================
+   PNG JAGUAR ANIMATION
+========================= */
+const jaguarImg = document.getElementById("jaguar");
+
+let imgX = -200;
+
+function animatePNG() {
+  imgX += 4;
+
+  if (imgX > window.innerWidth + 200) {
+    imgX = -200;
+  }
+
+  const yOffset = Math.sin(Date.now() * 0.02) * 6;
+
+  jaguarImg.style.transform = `translate(${imgX}px, ${yOffset}px)`;
+
+  requestAnimationFrame(animatePNG);
+}
+
+animatePNG();
+
+
+/* =========================
+   CANVAS PIXEL JAGUAR
+========================= */
 const canvas = document.getElementById("jaguarCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-window.addEventListener("resize", () => {
+function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-});
+}
 
+resize();
+window.addEventListener("resize", resize);
 
-// 🐆 More defined jaguar sprite (0=empty, 1=green body, 2=black spots)
+/* 🐆 sprite frames */
 const jaguarFrames = [
-
-/* FRAME 1 - front leg forward */
 [
 [0,0,0,1,1,1,1,1,0,0],
 [0,0,1,1,2,1,1,1,1,0],
@@ -100,8 +107,6 @@ const jaguarFrames = [
 [0,1,0,1,1,1,1,0,1,0],
 [0,1,0,0,1,0,0,0,1,0]
 ],
-
-/* FRAME 2 - neutral */
 [
 [0,0,0,1,1,1,1,1,0,0],
 [0,0,1,1,2,1,1,1,1,0],
@@ -111,8 +116,6 @@ const jaguarFrames = [
 [0,1,0,1,1,1,1,0,1,0],
 [0,0,1,0,1,0,0,1,0,0]
 ],
-
-/* FRAME 3 - back leg forward */
 [
 [0,0,0,1,1,1,1,1,0,0],
 [0,0,1,1,2,1,1,1,1,0],
@@ -122,8 +125,6 @@ const jaguarFrames = [
 [0,1,0,1,0,1,1,0,1,0],
 [0,0,0,1,0,0,1,0,0,0]
 ],
-
-/* FRAME 4 - stretched run */
 [
 [0,0,0,1,1,1,1,1,0,0],
 [0,0,1,1,2,1,1,1,1,0],
@@ -133,7 +134,6 @@ const jaguarFrames = [
 [0,1,0,0,1,1,0,1,0,0],
 [0,0,1,0,0,1,0,0,0,0]
 ]
-
 ];
 
 let x = -120;
@@ -142,27 +142,19 @@ let baseY = window.innerHeight * 0.7;
 function draw(sprite, x, y, size = 10) {
   for (let r = 0; r < sprite.length; r++) {
     for (let c = 0; c < sprite[r].length; c++) {
-
       const val = sprite[r][c];
 
       if (val === 0) continue;
 
-      // base jaguar fur
-      if (val === 1) {
-        ctx.fillStyle = "#00c853"; // deeper jungle green (more natural than neon)
-      }
-
-      // rosette spots (jaguar pattern)
-      if (val === 2) {
-        ctx.fillStyle = "#0b1a10"; // dark forest black-green
-      }
+      if (val === 1) ctx.fillStyle = "#00c853";
+      if (val === 2) ctx.fillStyle = "#0b1a10";
 
       ctx.fillRect(x + c * size, y + r * size, size, size);
     }
   }
 }
 
-function animate() {
+function animateCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   x += 3;
@@ -170,15 +162,14 @@ function animate() {
 
   const y = baseY + Math.sin(Date.now() * 0.02) * 4;
 
-  const speed = 140; // walking rhythm
-const frame = Math.floor(Date.now() / speed) % 4;
+  const frame = Math.floor(Date.now() / 140) % 4;
 
-draw(jaguarFrames[frame], x, y);
+  draw(jaguarFrames[frame], x, y);
 
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animateCanvas);
 }
 
-animate();
+animateCanvas();
 </script>
 
 </body>
