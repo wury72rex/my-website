@@ -43,15 +43,19 @@
       z-index: 9998;
     }
     /* ❤️ CSS-drawn heart */
-#heart {
+#heart-container {
   position: fixed;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20000;
+}
+
+#heart {
   width: 100px;
   height: 90px;
-  transform: translate(-50%, -50%) rotate(-45deg);
   background: red;
-  z-index: 20000;
+  transform: rotate(-45deg);
 }
 
 #heart::before,
@@ -78,7 +82,9 @@
 
 <body>
 
-<div id="heart"></div>
+<div id="heart-container">
+  <div id="heart"></div>
+</div>
 <h1>My Essays</h1>
 <p>This is your homepage.</p>
 
