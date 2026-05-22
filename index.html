@@ -3,6 +3,28 @@
 <head>
   <title>My Essays</title>
   <style>
+    <script>
+const jaguar = document.getElementById("jaguar");
+
+let x = -200;
+
+function animate() {
+  x += 4; // speed
+
+  if (x > window.innerWidth + 200) {
+    x = -200; // loop back
+  }
+
+  // slight up/down motion to simulate running
+  const yOffset = Math.sin(Date.now() * 0.02) * 6;
+
+  jaguar.style.transform = `translate(${x}px, ${yOffset}px)`;
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
     body {
       font-family: "Times New Roman", serif;
       background: white;
@@ -12,7 +34,7 @@
       line-height: 1.6;
       font-size: 18px;
     }
-
+<img id="jaguar" src="jaguar.png" />
     a {
       color: blue;
       text-decoration: underline;
@@ -29,6 +51,20 @@
     }
   </style>
 </head>
+</CSS>
+  #jaguar {
+  position: fixed;
+  top: 60%;
+  left: -200px;
+  width: 180px;          /* adjust size */
+  height: auto;
+
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+
+  z-index: 9999;
+  pointer-events: none;
+}
 
 <body>
 
