@@ -1,213 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Essays</title>
+  <title>My Site</title>
 
   <style>
     body {
-  font-family: "Times New Roman", serif;
-  background: white;
-  color: black;
-  margin: 40px;
-  line-height: 1.6;
-  font-size: 18px;
-}
+      font-family: Times, "Times New Roman", serif;
+      background: #ffffff;
+      color: #000000;
+      margin: 20px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
 
     a {
-      color: blue;
+      color: #0000EE;
       text-decoration: underline;
     }
 
-    /* 🖼️ PNG jaguar */
-    #jaguar {
-      position: fixed;
-      top: 60%;
-      left: -200px;
-      width: 180px;
-      height: auto;
-      z-index: 9999;
-      pointer-events: none;
-
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
+    a:visited {
+      color: #551A8B;
     }
 
-    /* 🎨 Canvas jaguar */
-    #jaguarCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9998;
+    .wrap {
+      display: flex;
+      align-items: flex-start;
     }
-    /* ❤️ CSS-drawn heart */
-#heart-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20000;
-}
 
-#heart {
-  width: 100px;
-  height: 90px;
-  background: red;
-  transform: rotate(-45deg);
-}
+    .left {
+      margin-right: 18px;
+      width: 110px;
+    }
 
-#heart::before,
-#heart::after {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 90px;
-  background: red;
-  border-radius: 50%;
-}
+    .left img {
+      width: 100px;
+      display: block;
+      margin-bottom: 10px;
+    }
 
-#heart::before {
-  top: -50px;
-  left: 0;
-}
+    .nav a {
+      display: block;
+      margin: 2px 0;
+    }
 
-#heart::after {
-  left: 50px;
-  top: 0;
-}
+    .right {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 6px 0;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0 0 10px 0;
+    }
   </style>
 </head>
 
 <body>
 
-<div id="heart-container">
-  <div id="heart"></div>
+<div class="wrap">
+
+  <!-- LEFT SIDE -->
+  <div class="left">
+
+    <!-- Replace with your image -->
+    <img src="your-image.jpg" alt="me">
+
+    <!-- NAVIGATION -->
+    <div class="nav">
+      <!-- 🔗 ALL POINT TO YOUR PROVIDED PAGE -->
+      <a href="my-essays.html">Essays</a>
+      <a href="my-essays.html">Projects</a>
+      <a href="my-essays.html">Writing</a>
+      <a href="my-essays.html">Notes</a>
+      <a href="my-essays.html">Contact</a>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+    <h1>My Essays</h1>
+
+    <p>
+      Welcome to my site. This is a simple place for writing and experiments.
+    </p>
+
+    <p>
+      Everything here is intentionally minimal.
+    </p>
+
+  </div>
+
 </div>
-<h1>My Essays</h1>
-<p>This is your homepage.</p>
-
-<!-- 🖼️ PNG jaguar -->
-<img id="jaguar" src="jaguar.png" />
-
-<!-- 🎨 Canvas jaguar -->
-<canvas id="jaguarCanvas"></canvas>
-
-<script>
-/* =========================
-   PNG JAGUAR ANIMATION
-========================= */
-const jaguarImg = document.getElementById("jaguar");
-
-let imgX = -200;
-
-function animatePNG() {
-  imgX += 4;
-
-  if (imgX > window.innerWidth + 200) {
-    imgX = -200;
-  }
-
-  const yOffset = Math.sin(Date.now() * 0.02) * 6;
-
-  jaguarImg.style.transform = `translate(${imgX}px, ${yOffset}px)`;
-
-  requestAnimationFrame(animatePNG);
-}
-
-animatePNG();
-
-
-/* =========================
-   CANVAS PIXEL JAGUAR
-========================= */
-const canvas = document.getElementById("jaguarCanvas");
-const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-
-resize();
-window.addEventListener("resize", resize);
-
-/* 🐆 sprite frames */
-const jaguarFrames = [
-[
-[0,0,0,1,1,1,1,1,0,0],
-[0,0,1,1,2,1,1,1,1,0],
-[0,1,1,1,1,1,1,1,1,1],
-[1,1,1,1,2,1,1,2,1,1],
-[1,1,1,1,1,1,1,1,1,0],
-[0,1,0,1,1,1,1,0,1,0],
-[0,1,0,0,1,0,0,0,1,0]
-],
-[
-[0,0,0,1,1,1,1,1,0,0],
-[0,0,1,1,2,1,1,1,1,0],
-[0,1,1,1,1,1,1,1,1,1],
-[1,1,1,2,1,1,1,2,1,1],
-[1,1,1,1,1,1,1,1,1,0],
-[0,1,0,1,1,1,1,0,1,0],
-[0,0,1,0,1,0,0,1,0,0]
-],
-[
-[0,0,0,1,1,1,1,1,0,0],
-[0,0,1,1,2,1,1,1,1,0],
-[0,1,1,1,1,1,1,1,1,1],
-[1,1,1,1,2,1,1,2,1,1],
-[0,1,1,1,1,1,1,1,1,0],
-[0,1,0,1,0,1,1,0,1,0],
-[0,0,0,1,0,0,1,0,0,0]
-],
-[
-[0,0,0,1,1,1,1,1,0,0],
-[0,0,1,1,2,1,1,1,1,0],
-[0,1,1,1,1,1,1,1,1,1],
-[1,1,2,1,1,1,1,1,1,1],
-[0,1,1,1,1,1,1,2,1,0],
-[0,1,0,0,1,1,0,1,0,0],
-[0,0,1,0,0,1,0,0,0,0]
-]
-];
-
-let x = -120;
-let baseY = window.innerHeight * 0.7;
-
-function draw(sprite, x, y, size = 10) {
-  for (let r = 0; r < sprite.length; r++) {
-    for (let c = 0; c < sprite[r].length; c++) {
-      const val = sprite[r][c];
-
-      if (val === 0) continue;
-
-      if (val === 1) ctx.fillStyle = "#00c853";
-      if (val === 2) ctx.fillStyle = "#0b1a10";
-
-      ctx.fillRect(x + c * size, y + r * size, size, size);
-    }
-  }
-}
-
-function animateCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  x += 3;
-  if (x > canvas.width + 120) x = -150;
-
-  const y = baseY + Math.sin(Date.now() * 0.02) * 4;
-
-  const frame = Math.floor(Date.now() / 140) % 4;
-
-  draw(jaguarFrames[frame], x, y);
-
-  requestAnimationFrame(animateCanvas);
-}
-
-animateCanvas();
-</script>
 
 </body>
 </html>
