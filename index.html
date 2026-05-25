@@ -1,8 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>My Site</title>
-  <link rel="icon" href="favicon.ico">
 
   <style>
     body {
@@ -134,7 +134,7 @@
 </div>
 
 <!-- 🖼️ PNG JAGUAR -->
-<img id="jaguar" src="jaguar.png" />
+<img id="jaguar" src="jaguar.png" alt="" onerror="this.style.display='none'" />
 
 <!-- 🎨 CANVAS JAGUAR -->
 <canvas id="jaguarCanvas"></canvas>
@@ -143,14 +143,15 @@
 
   <!-- LEFT -->
   <div class="left">
-    <img src="IMG_9390.jpg" alt="me">
+    <img src="IMG_9390.jpg" alt="me" onerror="this.style.display='none'">
 
     <div class="nav">
-      <a href="my-essays.html">Essays</a>
-      <a href="my-essays.html">Projects</a>
-      <a href="my-essays.html">Writing</a>
-      <a href="my-essays.html">Notes</a>
-      <a href="my-essays.html">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="essays.html">Essays</a>
+      <a href="#">Projects</a>
+      <a href="#">Writing</a>
+      <a href="#">Notes</a>
+      <a href="#">Contact</a>
     </div>
   </div>
 
@@ -205,12 +206,12 @@ window.addEventListener("resize", resize);
 /* sprite frames */
 const jaguarFrames = [
 [[0,0,0,1,1,1,1,1,0,0],
-[0,0,1,1,2,1,1,1,1,0],
-[0,1,1,1,1,1,1,1,1,1],
-[1,1,1,1,2,1,1,2,1,1],
-[1,1,1,1,1,1,1,1,1,0],
-[0,1,0,1,1,1,1,0,1,0],
-[0,1,0,0,1,0,0,0,1,0]]
+ [0,0,1,1,2,1,1,1,1,0],
+ [0,1,1,1,1,1,1,1,1,1],
+ [1,1,1,1,2,1,1,2,1,1],
+ [1,1,1,1,1,1,1,1,1,0],
+ [0,1,0,1,1,1,1,0,1,0],
+ [0,1,0,0,1,0,0,0,1,0]]
 ];
 
 let x = -120;
