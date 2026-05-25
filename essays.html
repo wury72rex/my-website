@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Essays</title>
+
+  <style>
+    body {
+      font-family: Times, "Times New Roman", serif;
+      background: white;
+      color: black;
+      margin: 20px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    a {
+      color: #0000EE;
+      text-decoration: underline;
+    }
+
+    a:visited {
+      color: #551A8B;
+    }
+
+    .wrap {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .left {
+      margin-right: 18px;
+      width: 110px;
+    }
+
+    .left img.portrait {
+      width: 100px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .nav a {
+      display: block;
+      margin: 2px 0;
+    }
+
+    .right {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 6px 0;
+    }
+
+    p {
+      margin: 0 0 10px 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+
+    table td {
+      padding: 2px 6px;
+    }
+
+    /* =========================
+       ❤️ HEART (CENTER)
+    ========================= */
+    #heart-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20000;
+      pointer-events: none;
+    }
+
+    #heart {
+      width: 80px;
+      height: 70px;
+      background: red;
+      transform: rotate(-45deg);
+    }
+
+    #heart::before,
+    #heart::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      height: 70px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    #heart::before {
+      top: -40px;
+      left: 0;
+    }
+
+    #heart::after {
+      left: 40px;
+      top: 0;
+    }
+
+    /* =========================
+       🖼️ PNG JAGUAR
+    ========================= */
+    #jaguar {
+      position: fixed;
+      top: 60%;
+      left: -200px;
+      width: 160px;
+      z-index: 9999;
+      pointer-events: none;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* =========================
+       🎨 CANVAS JAGUAR
+    ========================= */
+    #jaguarCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9998;
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- ❤️ HEART -->
+<div id="heart-container">
+  <div id="heart"></div>
+</div>
+
+<!-- 🖼️ PNG JAGUAR (falls back gracefully if jaguar.png not present) -->
+<img id="jaguar" src="jaguar.png" alt="" onerror="this.style.display='none'" />
+
+<!-- 🎨 CANVAS JAGUAR -->
+<canvas id="jaguarCanvas"></canvas>
+
+<div class="wrap">
+
+  <!-- LEFT -->
+  <div class="left">
+    <img class="portrait" src="your-image.jpg" alt="me" onerror="this.style.display='none'">
+
+    <div class="nav">
+      <a href="essays.html">Essays</a>
+      <a href="#">Projects</a>
+      <a href="#">Writing</a>
+      <a href="#">Notes</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <h1>Essays</h1>
+
+    <p>
+      This is a sample paragraph that will soon be updated with a
+      <a href="index.html" style="text-decoration: underline;">home link</a>.
+    </p>
+  </div>
+
+</div>
+
+<script>
+/* =========================
+   PNG JAGUAR ANIMATION
+========================= */
+const jaguarImg = document.getElementById("jaguar");
+
+let imgX = -200;
+
+function animatePNG() {
+  imgX += 4;
+
+  if (imgX > window.innerWidth + 200) {
+    imgX = -200;
+  }
+
+  const yOffset = Math.sin(Date.now() * 0.02) * 6;
+
+  jaguarImg.style.transform = `translate(${imgX}px, ${yOffset}px)`;
+
+  requestAnimationFrame(animatePNG);
+}
+
+animatePNG();
+
+
+/* =========================
+   CANVAS JAGUAR
+========================= */
+const canvas = document.getElementById("jaguarCanvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+/* sprite frames */
+const jaguarFrames = [
+[[0,0,0,1,1,1,1,1,0,0],
+ [0,0,1,1,2,1,1,1,1,0],
+ [0,1,1,1,1,1,1,1,1,1],
+ [1,1,1,1,2,1,1,2,1,1],
+ [1,1,1,1,1,1,1,1,1,0],
+ [0,1,0,1,1,1,1,0,1,0],
+ [0,1,0,0,1,0,0,0,1,0]]
+];
+
+let x = -120;
+let baseY = window.innerHeight * 0.7;
+
+function draw(sprite, x, y, size = 10) {
+  for (let r = 0; r < sprite.length; r++) {
+    for (let c = 0; c < sprite[r].length; c++) {
+      const val = sprite[r][c];
+      if (!val) continue;
+
+      ctx.fillStyle = val === 1 ? "#00c853" : "#0b1a10";
+      ctx.fillRect(x + c * size, y + r * size, size, size);
+    }
+  }
+}
+
+function animateCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  x += 3;
+  if (x > canvas.width + 120) x = -150;
+
+  const y = baseY + Math.sin(Date.now() * 0.02) * 4;
+
+  draw(jaguarFrames[0], x, y);
+
+  requestAnimationFrame(animateCanvas);
+}
+
+animateCanvas();
+</script>
+
+</body>
+</html>
